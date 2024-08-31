@@ -1,0 +1,21 @@
+{
+    "name": "Phraseboard",
+    "short_name": "Phraseboard",
+    "start_url": "index.php",
+    "display": "fullscreen",
+    "background_color": "#0A0A0A",
+    "theme_color": "#0A0A0A",
+    "description": "An interactive and customizable keyboard/phraseboard that can be used to speak outloud for the user",
+    "icons": [{
+      "src": "res/favicon.webp",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "res/favicon_maskable.webp",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }]
+  }

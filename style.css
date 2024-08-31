@@ -1,0 +1,128 @@
+:root {
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --monospace: "Fira Code", Inconsolata, "SFMono-Regular", "Consolas", "Menlo", monospace;
+    --background: #0A0A0A;
+    --bright: #FFF;
+    --text: #FEFEFE;
+    --dull: #666666;
+    --dullish: #999999;
+    --border: #3F4145;
+    --highlight: rgba(255, 255, 255, .05);
+    --highlight-hard: rgba(255, 255, 255, .1);
+    --accent: #AAD94C;
+    --accent2: #3498DB;
+    --error: #D95757;
+    --box-shadow: rgba(0,0,0,.2);
+    --border-radius: 4px;
+    --shade: rgba(0, 0, 0, .5);
+}
+:root.light {
+    --background: #FBF8F3;
+    --bright: #000;
+    --text: #0D1017;
+    --dull: #999999;
+    --dullish: #666666;
+    --border: #D8D8D8;
+    --highlight: rgba(0, 0, 0, .05);
+    --highlight-hard: rgba(0, 0, 0, .1);
+    --accent: #98C43C;
+    --accent2: #3498DB;
+    --error: #E74C3C;
+    --box-shadow: rgba(0,0,0,.1);
+}
+
+* {
+    -webkit-font-smoothing: subpixel-antialiased;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: light;
+}
+.light * {
+    scrollbar-width: thin;
+    scrollbar-color: dark;
+}
+:selection {
+	background: rgba(255,255,255,0.25);
+}
+::-moz-selection {
+	background: rgba(255,255,255,0.25);
+}
+.light :selection {
+	background: rgba(0,0,0,0.25);
+}
+.light ::-moz-selection {
+	background: rgba(0,0,0,0.25);
+}
+
+html, body {
+	height: 100vh;
+	width: 100vw;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+body {
+	font-family: var(--font);
+	color: var(--text);
+	background: var(--background);
+}
+
+#toolbar {
+	padding: 5px 15px;
+	box-sizing: border-box;
+	border-bottom: 1px solid var(--border);
+	display: flex;
+	align-items: center;
+}
+#toolbar svg {
+    height: 32px;
+    width: 32px;
+    stroke: var(--text);
+}
+#themeToggle {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+#themeToggle > div {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: transform .3s;
+}
+#themeToggle > div:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+}
+#themeToggle > div:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    border-right-color: white;
+    border-top-color: black;
+    border-bottom-color: white;
+    border-left-color: black;
+    border-width: 12px;
+    border-style: solid;
+    height: 0px;
+    width: 0px;
+    transition: transform .3s;
+}
+.light #themeToggle > div:after {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}

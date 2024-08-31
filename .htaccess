@@ -1,0 +1,12 @@
+DirectoryIndex index.php
+DefaultLanguage en-US
+AddDefaultCharset UTF-8
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off 
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<FilesMatch ".(pdf|svg|txt|flv|gif|jpg|jpeg|png|ico|swf|otf|ttf|webp|jp2)$">
+    Header set Cache-Control "max-age=31557600"
+</FilesMatch>
