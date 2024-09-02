@@ -7,6 +7,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off 
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-<FilesMatch ".(pdf|svg|txt|flv|gif|jpg|jpeg|png|ico|swf|otf|ttf|webp|jp2)$">
+# <FilesMatch ".(htmo|php|css|js)$">
+#     Header set Cache-Control "max-age=31557600"
+# </FilesMatch>
+
+<FilesMatch ".(pdf|svg|txt|flv|gif|jpg|jpeg|png|ico|swf|otf|ttf|webp|jp2|txt|json|md)$">
     Header set Cache-Control "max-age=31557600"
 </FilesMatch>

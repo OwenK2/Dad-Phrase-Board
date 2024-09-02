@@ -1,12 +1,14 @@
 var staticCacheName = "pwa-v" + new Date().getTime();
 var filesToCache = [
-    '.htaccess',
     'manifest.json',
     'index.php',
     'style.css',
     'script.js',
-    'res/favicon.png',
-    'res/favicon_maskable.png',
+    'keyboard.js',
+    'phrase.js',
+    'res/favicon.webp',
+    'res/favicon_maskable.webp',
+    'res/words_en.txt'
 ];
 
 // Cache on install

@@ -1,6 +1,7 @@
 :root {
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --monospace: "Fira Code", Inconsolata, "SFMono-Regular", "Consolas", "Menlo", monospace;
+    --theme: dark;
     --background: #0A0A0A;
     --bright: #FFF;
     --text: #FEFEFE;
@@ -12,11 +13,12 @@
     --accent: #AAD94C;
     --accent2: #3498DB;
     --error: #D95757;
-    --box-shadow: rgba(0,0,0,.2);
+    --box-shadow: rgba(0,0,0,.4);
     --border-radius: 4px;
     --shade: rgba(0, 0, 0, .5);
 }
 :root.light {
+    --theme: light;
     --background: #FBF8F3;
     --bright: #000;
     --text: #0D1017;
@@ -37,92 +39,255 @@
     overscroll-behavior-x: none;
     -webkit-tap-highlight-color: transparent;
     scrollbar-width: thin;
-    scrollbar-color: light;
+    scrollbar-color: dark;
+    box-sizing: border-box;
 }
 .light * {
-    scrollbar-width: thin;
-    scrollbar-color: dark;
-}
-:selection {
-	background: rgba(255,255,255,0.25);
-}
-::-moz-selection {
-	background: rgba(255,255,255,0.25);
-}
-.light :selection {
-	background: rgba(0,0,0,0.25);
-}
-.light ::-moz-selection {
-	background: rgba(0,0,0,0.25);
+    scrollbar-color: light;
 }
 
+/* Main layout */
 html, body {
-	height: 100vh;
-	width: 100vw;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    color-scheme: var(--theme);
 }
 body {
-	font-family: var(--font);
-	color: var(--text);
-	background: var(--background);
+    font-family: var(--font);
+    color: var(--text);
+    fill: var(--text);
+    background: var(--background);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(2, auto) 1fr;
 }
 
-#toolbar {
-	padding: 5px 15px;
-	box-sizing: border-box;
-	border-bottom: 1px solid var(--border);
-	display: flex;
-	align-items: center;
+/* Display */
+#display {
+    grid-area: 1 / 2 / 2 / 3;
+    min-height: 1em;
+    font-size: 1.2em;
+    font-family: var(--monospace);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto;
 }
-#toolbar svg {
-    height: 32px;
-    width: 32px;
-    stroke: var(--text);
-}
-#themeToggle {
-    flex: 1;
-    display: flex;
-    justify-content: right;
+#phrase {
+    padding: 15px;
+    white-space: pre-wrap;
+    display: grid;
     align-items: center;
+    overflow-y: auto;
 }
-#themeToggle > div {
-    width: 24px;
-    height: 24px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    position: relative;
+#phrase:empty:before {
+    content: "Phrase will appear here as typed";
+    color: var(--dull);
+}
+#display > div {
+    width: 64px;
+    padding: 15px;
+    border-left: 1px solid var(--border);
+    display: grid;
+    align-items: center;
     cursor: pointer;
+}
+#display > div > svg {
+    width: 100%;
+    transition: fill .3s;
+}
+#display > div:hover > svg, #display > div:active > svg {
+    fill: var(--error);
+}
+
+/* Sidebar */
+#sidebar {
+    grid-area: 1 / 1 / 4 / 2;
+    width: 64px;
+    border-right: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 64px auto 64px;
+}
+#logo {
+    fill: none !important;
+    stroke: var(--text) !important;
+    background: var(--background) !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    transform: none !important;
+    cursor: default !important;
+}
+.sidebar-item {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+    transition: fill .3s, background .3s;
+}
+.sidebar-item:hover, .sidebar-item:active {
+    background: var(--highlight);
+}
+.sidebar-item > svg {
+    padding: 25%;
     transition: transform .3s;
 }
-#themeToggle > div:hover {
+.sidebar-item:hover > svg, .sidebar-item:active > svg {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
     -o-transform: scale(1.1);
+    -ms-transform: scale(1.1);
     transform: scale(1.1);
 }
-#themeToggle > div:after {
-    content: "";
-    position: absolute;
+#sidebar > .sidebar-item:last-child {
+    border-bottom: 0;
+}
+#keyboardBtns {
+    display: flex;
+    flex-direction: column;
+}
+#keyboardBtns > .sidebar-item {
+    flex: 1;
+    display: grid;
+    align-items: center;
+}
+#keyboardBtns > .sidebar-item.active {
+    fill: var(--accent);
+    background: var(--highlight);
+}
+
+/* Suggestions */
+#suggestions {
+    grid-area: 2 / 2 / 3 / 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    text-align: center;
+    font-family: var(--monospace);
+    min-height: calc(1.2em + 52px);
+}
+#suggestions:empty:before {
+    content: "Suggestions will appear here";
+    color: var(--dull);
+}
+#suggestions > div {
+    min-width: 50px;
+    padding: 10px;
+    margin: 15px;
+    background: var(--highlight);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background .3s, color .3s;
+}
+#suggestions > div:hover, #suggestions > div:active {
+    color: var(--accent);
+    background: var(--highlight-hard);
+}
+
+/* Keyboard */
+#keyboards {
+    grid-area: 3 / 2 / 4 / 3;
+}
+#keyboards > div {
+    padding: 15px;
+    width: 100%;
+    overflow-y: auto;
+    display: none;
+}
+#keyboards > div.visible {
+    display: block;
+}
+.keyboard-row {
+    width: 100%;
+    display: flex;
+    grid-gap: 5px;
+    margin: 5px 0;
+}
+.keyboard-key {
+    flex: 1;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-size: 4em;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    border: 1px solid var(--border);
+    background: var(--highlight);
+    font-family: var(--monospace);
+    cursor: pointer;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    transition: color .3s, background .3s;
+}
+.keyboard-key:hover {
+    color: var(--accent);
+    background: var(--highlight-hard);
+}
+
+/* Popups */
+.shade {
+    height: 100vh;
+    width: 100vw;
     top: 0;
     left: 0;
-    border-radius: 50%;
-    border-right-color: white;
-    border-top-color: black;
-    border-bottom-color: white;
-    border-left-color: black;
-    border-width: 12px;
-    border-style: solid;
-    height: 0px;
-    width: 0px;
-    transition: transform .3s;
+    position: fixed;
+    background: var(--shade);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
-.light #themeToggle > div:after {
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    transform: rotate(180deg);
+.popup {
+    max-width: 800px;
+    width: calc(95% - 30px);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 15px 15px var(--box-shadow);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+}
+.popup-head {
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+}
+.popup-close {
+    height: 28px;
+    width: 28px;
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    padding: 4px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: fill .3s;
+}
+.popup-close:hover, .popup-close:active {
+    fill: var(--error);
+}
+.popup-body {
+    padding: 15px;
+    max-height: calc(95vh - 76px);
+    overflow-y: auto;
 }
